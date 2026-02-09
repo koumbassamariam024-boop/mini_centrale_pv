@@ -15,10 +15,17 @@ void main() {
     home: AuthPage(),
   ));
 }*/
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'Service/http_overrides.dart';
 import 'connexion.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp()); // sans const
 }
 
