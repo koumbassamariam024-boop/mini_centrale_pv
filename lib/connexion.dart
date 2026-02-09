@@ -6,6 +6,7 @@ import 'package:mini_centrale_pv/res/customColors.dart';
 import 'Dashboard.dart';
 import 'global.dart';
 import 'formulaire_de_questions.dart';
+import 'register_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -18,6 +19,10 @@ class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _adminController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nomController = TextEditingController();
+  final TextEditingController _prenomController = TextEditingController();
+  final TextEditingController _registerPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isLoading = false;
 
@@ -89,6 +94,39 @@ class _AuthPageState extends State<AuthPage> {
         ),
       );
     }
+  }
+  void _register() {
+    final nom = _nomController.text.trim();
+    final prenom = _prenomController.text.trim();
+    final password = _registerPasswordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (nom.isEmpty || prenom.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Tous les champs sont obligatoires"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Les mots de passe ne correspondent pas"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Inscription réussie !"),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 
   @override
@@ -314,6 +352,40 @@ class _AuthPageState extends State<AuthPage> {
                   ),
 
                   const SizedBox(height: 18),
+                  // INSCRIPTION
+                  SizedBox(
+                    width: double.infinity,
+                    height: 46,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const RegisterPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF65C441),
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        elevation: 6,
+                        shadowColor: const Color(0xFF65C441).withOpacity(0.6),
+                      ),
+                      child: const Text(
+                        "S'inscrire",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+
+
+                  const SizedBox(height: 30),
+
+
 
                   // Footer
                   Text(
